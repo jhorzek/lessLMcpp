@@ -1,4 +1,4 @@
-name: R CMD check ubuntu
+name: check lessLMcpp
 
 on:
   pull_request:
