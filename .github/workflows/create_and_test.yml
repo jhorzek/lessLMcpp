@@ -26,7 +26,9 @@ jobs:
       run: |
         ls
         mkdir build 
-        cmake build build -DCMAKE_TOOLCHAIN_FILE=.vcpkg/scripts/buildsystems/vcpkg.cmake
+        cd build
+        cmake build .. -DCMAKE_TOOLCHAIN_FILE=vcpkg/scripts/buildsystems/vcpkg.cmake
+        cd ..
         cmake --build build
         ls
     - name: run test
