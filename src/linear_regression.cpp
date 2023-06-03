@@ -103,7 +103,8 @@ arma::mat approximateHessian(arma::colvec b, // the parameter vector
 // Using glmnet
 lessSEM::fitResults penalizeGlmnet(arma::colvec y,
                                    arma::mat X,
-                                   lessSEM::numericVector startingValues,
+                                   arma::rowvec startingValues,
+                                   lessSEM::stringVector parameterLabels,
                                    std::vector<std::string> penalty,
                                    arma::rowvec lambda,
                                    arma::rowvec theta,
@@ -130,6 +131,7 @@ lessSEM::fitResults penalizeGlmnet(arma::colvec y,
   lessSEM::fitResults fitResult_ = lessSEM::fitGlmnet(
       linReg,
       startingValues,
+      parameterLabels,
       penalty,
       lambda,
       theta,
@@ -145,7 +147,8 @@ lessSEM::fitResults penalizeGlmnet(arma::colvec y,
 // Using ista
 lessSEM::fitResults penalizeIsta(arma::colvec y,
                                  arma::mat X,
-                                 lessSEM::numericVector startingValues,
+                                 arma::rowvec startingValues,
+                                 lessSEM::stringVector parameterLabels,
                                  std::vector<std::string> penalty,
                                  arma::rowvec lambda,
                                  arma::rowvec theta)
@@ -158,6 +161,7 @@ lessSEM::fitResults penalizeIsta(arma::colvec y,
   lessSEM::fitResults fitResult_ = lessSEM::fitIsta(
       linReg,
       startingValues,
+      parameterLabels,
       penalty,
       lambda,
       theta);

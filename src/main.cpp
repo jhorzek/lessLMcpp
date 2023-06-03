@@ -6,9 +6,9 @@ int main(int argc, char *argv[])
     if (argc != 5)
         error("Expecting three arguments: X-file, y-file, lambda, and optimizer");
 
-    print << "X: "         << argv[1] << std::endl;
-    print << "y:"          << argv[2] << std::endl;
-    print << "lambda: "    << argv[3] << std::endl;
+    print << "X: " << argv[1] << std::endl;
+    print << "y:" << argv[2] << std::endl;
+    print << "lambda: " << argv[3] << std::endl;
     print << "optimizer: " << argv[4] << std::endl;
 
     std::string X_file = argv[1];
@@ -31,8 +31,8 @@ int main(int argc, char *argv[])
     X.insert_cols(0, ones);
 
     // starting values
-    arma::rowvec b_vec(X.n_cols, arma::fill::zeros);
-    lessSEM::numericVector b(b_vec);
+    arma::rowvec parameterValues(X.n_cols, arma::fill::zeros);
+    lessSEM::stringVector parameterLabels(X.n_cols);
 
     // penalty
     std::vector<std::string> penalty;
@@ -47,10 +47,10 @@ int main(int argc, char *argv[])
         penalty.push_back("lasso"); // lasso penalty for everything else
     }
 
-    arma::mat initialHessian = approximateHessian(b.values.t(), // the parameter vector
-                                                  y,            // the dependent variable
-                                                  X,            // the design matrix
-                                                  .0000001      // controls the exactness of the approximation
+    arma::mat initialHessian = approximateHessian(parameterValues.t(), // the parameter vector
+                                                  y,                   // the dependent variable
+                                                  X,                   // the design matrix
+                                                  .0000001             // controls the exactness of the approximation
     );
 
     lessSEM::fitResults fitRes;
@@ -59,7 +59,8 @@ int main(int argc, char *argv[])
     {
         fitRes = penalizeGlmnet(y,
                                 X,
-                                b,
+                                parameterValues,
+                                parameterLabels,
                                 penalty,
                                 lambda,
                                 theta,
@@ -69,7 +70,8 @@ int main(int argc, char *argv[])
     {
         fitRes = penalizeIsta(y,
                               X,
-                              b,
+                              parameterValues,
+                              parameterLabels,
                               penalty,
                               lambda,
                               theta);
