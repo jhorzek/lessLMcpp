@@ -33,4 +33,4 @@ jobs:
         ls
     - name: run test
       run: |
-        build/lessLMcpp test/X.csv test/y.csv glmnet
+        build/lessLMcpp test/X.csv test/y.csv .5 glmnet
